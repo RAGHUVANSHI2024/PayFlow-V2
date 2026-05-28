@@ -1,9 +1,7 @@
 package com.payflow.auth.service;
 
-import com.payflow.auth.dto.LoginRequestDto;
-import com.payflow.auth.dto.LoginResponseDto;
-import com.payflow.auth.dto.RegisterRequestDto;
-import com.payflow.auth.dto.UserProfileResponseDto;
+import com.payflow.auth.client.UserServiceClient;
+import com.payflow.auth.dto.*;
 import com.payflow.auth.entity.User;
 import com.payflow.auth.enums.Role;
 import com.payflow.auth.exception.UserAlreadyExistsException;
@@ -23,6 +21,8 @@ public class AuthServiceImpl implements AuthService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final UserServiceClient userServiceClient;
+
     private final JwtUtil jwtUtil;
 
     @Override
@@ -40,6 +40,13 @@ public class AuthServiceImpl implements AuthService{
                 .build();
 
         userRepository.save(user);
+
+        userServiceClient.createUserProfile(UserProfileRequestDto.builder()
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .role(user.getRole().name())
+                .build()
+        );
 
         return "User register successfully";
     }
