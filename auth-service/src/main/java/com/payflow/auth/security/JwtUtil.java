@@ -18,10 +18,11 @@ public class JwtUtil {
         return (java.security.Key) Keys.hmacShaKeyFor(SECRET.getBytes());
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String email,String role) {
         System.out.println("Auth Service date " +new Date());
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role",role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
@@ -29,6 +30,16 @@ public class JwtUtil {
 
     }
 
+    public String generateRefreshToken(String email){
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(
+                        new Date(System.currentTimeMillis()+1000L * 60 * 60 * 24 * 7)
+                )
+                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
     public String extractEmail(String token) {
 
         return extractClaims(token).getSubject();
@@ -51,5 +62,16 @@ public class JwtUtil {
 
     private Claims extractClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
+    }
+
+    public String extractTokenFromHeader(String authHeader) {
+
+        if (authHeader != null &&
+                authHeader.startsWith("Bearer ")) {
+
+            return authHeader.substring(7);
+        }
+
+        return null;
     }
 }
