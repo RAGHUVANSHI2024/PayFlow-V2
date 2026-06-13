@@ -1,14 +1,12 @@
 package com.payflow.wallet.repository;
 
-import com.payflow.wallet.entity.Wallet;
+import com.payflow.wallet.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface WalletRepository extends JpaRepository<Wallet, Long> {
+public interface TransactionRepository extends JpaRepository<Transaction,Long> {
 
-    @Override
-    Optional<Wallet> findById(Long id);
 }

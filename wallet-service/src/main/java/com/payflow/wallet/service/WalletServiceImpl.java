@@ -21,7 +21,7 @@ public class WalletServiceImpl implements WalletService{
 
 
         Wallet wallet = Wallet.builder()
-                .id(request.getUserId())
+                .userId(request.getUserId())
                 .walletNumber(UUID.randomUUID()
                         .toString()
                         .replace("-","")
