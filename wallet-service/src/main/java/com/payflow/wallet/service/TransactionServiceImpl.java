@@ -1,5 +1,7 @@
 package com.payflow.wallet.service;
 
+import com.payflow.wallet.Exception.InsufficientBalanceException;
+import com.payflow.wallet.Exception.WalletIdNotFoundException;
 import com.payflow.wallet.dto.TransferMoneyRequest;
 import com.payflow.wallet.entity.Transaction;
 import com.payflow.wallet.entity.Wallet;
@@ -8,9 +10,11 @@ import com.payflow.wallet.repository.TransactionRepository;
 import com.payflow.wallet.repository.WalletRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -26,16 +30,16 @@ public class TransactionServiceImpl implements TransactionService{
 
         Wallet sender = walletRepository.findById(request
                 .getSenderWalletId())
-                .orElseThrow(() -> new RuntimeException("SenderId does not exist!"));
+                .orElseThrow(() -> new WalletIdNotFoundException("SenderId does not exist!"));
 
         Wallet receiver = walletRepository.findById(request
                         .getReceiverWalletId())
-                .orElseThrow(() -> new RuntimeException("ReceiverId does not exist!"));
+                .orElseThrow(() -> new WalletIdNotFoundException("ReceiverId does not exist!"));
 
 
         if (sender.getBalance().compareTo(request.getAmount()) < 0) {
 
-            throw new RuntimeException("Insufficient balance");
+            throw new InsufficientBalanceException("Insufficient balance");
         }
 
         sender.setBalance(
@@ -51,13 +55,25 @@ public class TransactionServiceImpl implements TransactionService{
 
         Transaction transaction = Transaction.builder()
                 .senderWalletId(sender.getId())
-                .senderWalletId(receiver.getId())
+                .receiverWalletId(receiver.getId())
                 .amount(request.getAmount())
                 .status(TransactionStatus.SUCCESS)
-                .createdAt(LocalDateTime.now())
                 .build();
 
         transactionRepository.save(transaction);
 
+    }
+
+    @Override
+    public Page<Transaction> getHistory(Long walletId, int page, int size) {
+
+        Pageable pageable = PageRequest
+                .of(
+                        page,
+                        size,
+                        Sort.by("createdAt").descending()
+                );
+
+        return transactionRepository.findBySenderWalletIdOrReceiverWalletId(walletId,walletId,pageable);
     }
 }

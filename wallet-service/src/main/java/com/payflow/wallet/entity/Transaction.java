@@ -3,6 +3,7 @@ package com.payflow.wallet.entity;
 import com.payflow.wallet.enums.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,5 +30,6 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
+    @CreationTimestamp
     private LocalDateTime createdAt;
 }
