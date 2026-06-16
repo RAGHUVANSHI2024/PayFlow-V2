@@ -1,8 +1,9 @@
 package com.payflow.user.controller;
 
 import com.payflow.user.entity.UserProfile;
-import com.payflow.user.repository.UserRepository;
+import com.payflow.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @PostMapping
-    public void createUser(@RequestBody UserProfile request) {
-
-        userRepository.save(request);
+    public ResponseEntity<UserProfile> createUser(@RequestBody UserProfile request) {
+        UserProfile user = userService.createUser(request);
+        return ResponseEntity.ok(user);
     }
 }
