@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class UserProfileRequestDto {
 
+    private Long authUserId;
     private String fullName;
     private String email;
     private String role;

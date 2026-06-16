@@ -1,6 +1,7 @@
 package com.payflow.auth.service;
 
 import com.payflow.auth.client.UserServiceClient;
+import com.payflow.auth.client.WalletClient;
 import com.payflow.auth.dto.*;
 import com.payflow.auth.entity.User;
 import com.payflow.auth.enums.Role;
@@ -20,8 +21,9 @@ public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final UserServiceClient userServiceClient;
+
+    private final WalletClient walletClient;
 
     private final JwtUtil jwtUtil;
 
@@ -41,7 +43,13 @@ public class AuthServiceImpl implements AuthService{
 
         userRepository.save(user);
 
+        CreateWalletRequest request1 = CreateWalletRequest.builder()
+                        .userId(user.getId())
+                                .build();
+        walletClient.createWallet(request1);
+
         userServiceClient.createUserProfile(UserProfileRequestDto.builder()
+                .authUserId(user.getId())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .role(user.getRole().name())
@@ -55,7 +63,7 @@ public class AuthServiceImpl implements AuthService{
     public LoginResponseDto login(LoginRequestDto request) {
 
        User user = userRepository.findByEmail(request.getEmail())
-               .orElseThrow(()-> new RuntimeException("Invalid email pr password"));
+               .orElseThrow(()-> new RuntimeException("Invalid email or password"));
 
         boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
 

@@ -1,27 +1,6 @@
-server:
-  port: 8081
-
 spring:
   application:
-    name: AUTH-SERVICE
+    name: auth-service
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/payflow_auth
-    username: root
-    password: mysql
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-
-    show-sql: true
-
-    properties:
-      hibernate:
-        format_sql: true
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+  config:
+    import: optional:configserver:http://localhost:8888
