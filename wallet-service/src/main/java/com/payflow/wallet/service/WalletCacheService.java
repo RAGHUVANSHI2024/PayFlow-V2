@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -13,13 +14,14 @@ public class WalletCacheService {
     private final RedisTemplate<String , Object> redisTemplate;
 
     private String  getWalletKey(Long walletId){
-        return "wallet :" +walletId;
+        return "wallet:" +walletId;
     }
 
     public void saveBalance(Long walletId, BigDecimal balance){
         redisTemplate.opsForValue().set(
                 getWalletKey(walletId),
-                balance
+                balance,
+                Duration.ofMinutes(10)
         );
     }
 
