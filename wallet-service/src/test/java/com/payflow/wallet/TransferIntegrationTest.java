@@ -110,4 +110,27 @@ public class TransferIntegrationTest {
 
         assertEquals(0,transactionRepository.count());
     }
+
+    @Test
+    void shouldRollbackWhenBalanceIsInsufficient(){
+        Wallet sender = Wallet.builder()
+                .balance(new BigDecimal("100"))
+                .build();
+
+        Wallet receiver = Wallet.builder()
+                .balance(new BigDecimal("500"))
+                .build();
+
+        sender = walletRepository.save(sender);
+        receiver = walletRepository.save(receiver);
+
+        TransferMoneyRequest request =
+                new TransferMoneyRequest();
+
+        request.setSenderWalletId(sender.getId());
+        request.setReceiverWalletId(receiver.getId());
+        request.setAmount(new BigDecimal("200"));
+
+        assertThrows(InsufficientBalanceException.class,() -> transactionService.transfer(request));
+    }
 }
