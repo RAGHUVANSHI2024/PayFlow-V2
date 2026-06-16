@@ -1,5 +1,6 @@
 package com.payflow.wallet.service;
 
+import com.payflow.wallet.Exception.WalletIdNotFoundException;
 import com.payflow.wallet.dto.CreateWalletRequest;
 import com.payflow.wallet.entity.Wallet;
 import com.payflow.wallet.enums.WalletStatus;
@@ -15,6 +16,8 @@ import java.util.UUID;
 public class WalletServiceImpl implements WalletService{
 
     private final WalletRepository walletRepository;
+
+    private final WalletCacheService walletCacheService;
 
     @Override
     public void createWallet(CreateWalletRequest request) {
@@ -32,5 +35,31 @@ public class WalletServiceImpl implements WalletService{
                 .build();
 
         walletRepository.save(wallet);
+    }
+
+    @Override
+    public BigDecimal getWalletBalance(Long walletId) {
+
+        BigDecimal cachedBalance  = walletCacheService.getBalance(walletId);
+
+        if ( cachedBalance != null){
+
+            System.out.println("CACHE HIT");
+            return  cachedBalance;
+        }
+
+        System.out.println("CACHE MIS");
+
+        Wallet wallet = walletRepository
+                .findById(walletId)
+                .orElseThrow(
+                        () -> new WalletIdNotFoundException("Wallet not found")
+                );
+
+        walletCacheService.saveBalance(
+                walletId,
+                wallet.getBalance());
+
+        return wallet.getBalance();
     }
 }

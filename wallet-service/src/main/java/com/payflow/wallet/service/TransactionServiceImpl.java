@@ -25,6 +25,7 @@ public class TransactionServiceImpl implements TransactionService{
 
     private final TransactionRepository transactionRepository;
 
+    private final WalletCacheService walletCacheService;
     @Override
     public void transfer(TransferMoneyRequest request) {
 
@@ -49,6 +50,9 @@ public class TransactionServiceImpl implements TransactionService{
         receiver.setBalance(
                 receiver.getBalance()
                         .add(request.getAmount()));
+
+        walletCacheService.evictBalance(sender.getId());
+        walletCacheService.evictBalance(receiver.getId());
 
         walletRepository.save(sender);
         walletRepository.save(receiver);
