@@ -19,7 +19,6 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
@@ -35,6 +34,7 @@ public class AuthServiceImpl implements AuthService{
             name = "walletService",
             fallbackMethod = "registerFallback"
     )
+    @Transactional
     public String register(RegisterRequestDto request) {
 
         if (userRepository.existsByEmail(request.getEmail())){
