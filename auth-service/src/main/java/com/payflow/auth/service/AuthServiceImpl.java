@@ -9,14 +9,17 @@ import com.payflow.auth.exception.UserAlreadyExistsException;
 import com.payflow.auth.repository.UserRepository;
 import com.payflow.auth.security.JwtUtil;
 import com.payflow.auth.util.SecurityUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
@@ -28,6 +31,10 @@ public class AuthServiceImpl implements AuthService{
     private final JwtUtil jwtUtil;
 
     @Override
+    @CircuitBreaker(
+            name = "walletService",
+            fallbackMethod = "registerFallback"
+    )
     public String register(RegisterRequestDto request) {
 
         if (userRepository.existsByEmail(request.getEmail())){
@@ -98,5 +105,10 @@ public class AuthServiceImpl implements AuthService{
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .build();
+    }
+    public String registerFallback(
+            RegisterRequestDto request,
+            Exception ex){
+     throw new RuntimeException("Wallet Service is unavailable , Register failed.");
     }
 }
