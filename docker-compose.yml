@@ -44,5 +44,21 @@ services:
     environment:
       SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
 
+  user-service:
+    image: payflow-user
+    container_name: payflow-user
+
+    ports:
+      - "8082:8082"
+
+    depends_on:
+      - config-server
+      - eureka-server
+      - mysql
+
+    environment:
+      SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
+
+
 volumes:
   mysql-data:
