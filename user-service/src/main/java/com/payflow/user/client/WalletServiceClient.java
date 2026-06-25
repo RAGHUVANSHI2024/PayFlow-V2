@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name ="WALLET-SERVICE")
 public interface WalletServiceClient {
 
-    @PostMapping("/api/v1/wallets")
-    void createWallet(@RequestBody CreateWalletRequest request);
+    /*@PostMapping("/api/v1/wallets")
+    void createWallet(@RequestBody CreateWalletRequest request);*/
 }
