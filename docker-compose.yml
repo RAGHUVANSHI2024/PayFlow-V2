@@ -1,0 +1,48 @@
+services:
+
+  redis:
+    image: redis:7
+    container_name: payflow-redis
+    ports:
+      - "6379:6379"
+
+  eureka-server:
+    image: payflow-eureka
+    container_name: payflow-eureka
+    ports:
+      - "8761:8761"
+
+  config-server:
+    image: payflow-config
+    container_name: payflow-config
+    ports:
+      - "8888:8888"
+
+  mysql:
+    image: mysql:8.0
+    container_name: payflow-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: payflow_auth
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  auth-service:
+    image: payflow-auth
+    container_name: payflow-auth
+
+    ports:
+      - 8081:8081
+    depends_on:
+      - config-server
+      - eureka-server
+      - mysql
+
+
+    environment:
+      SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
+
+volumes:
+  mysql-data:

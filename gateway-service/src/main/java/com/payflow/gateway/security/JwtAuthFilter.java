@@ -1,6 +1,7 @@
 package com.payflow.gateway.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthFilter implements GlobalFilter {
 
     private final JwtUtil jwtUtil;
@@ -38,7 +40,8 @@ public class JwtAuthFilter implements GlobalFilter {
 
         String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-        if (authHeader == null || !authHeader.startsWith("Bearer")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+            log.info("AuthHeader is null or does not start with Bearer !!");
             exchange.getResponse()
                     .setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
@@ -50,6 +53,7 @@ public class JwtAuthFilter implements GlobalFilter {
             String email = jwtUtil.extractEmail(token);
 
             if (!jwtUtil.isTokenValid(token,email)){
+                log.info("Token is not validate check expiration and secret key :");
                 exchange.getResponse()
                         .setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
@@ -73,7 +77,7 @@ public class JwtAuthFilter implements GlobalFilter {
             return chain.filter(mutatedExchange);
         }
         catch (Exception e){
-            e.printStackTrace();
+            log.info("SomeThing wrong for extracting JwtToken !");
             exchange.getResponse()
                     .setStatusCode(HttpStatus.UNAUTHORIZED);
 
