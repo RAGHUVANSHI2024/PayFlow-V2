@@ -2,10 +2,12 @@ package com.payflow.wallet.service;
 
 import com.payflow.wallet.Exception.InsufficientBalanceException;
 import com.payflow.wallet.Exception.WalletIdNotFoundException;
+import com.payflow.wallet.dto.MoneyTransferredEvent;
 import com.payflow.wallet.dto.TransferMoneyRequest;
 import com.payflow.wallet.entity.Transaction;
 import com.payflow.wallet.entity.Wallet;
 import com.payflow.wallet.enums.TransactionStatus;
+import com.payflow.wallet.kafka.KafkaProducerService;
 import com.payflow.wallet.repository.TransactionRepository;
 import com.payflow.wallet.repository.WalletRepository;
 import jakarta.transaction.Transactional;
@@ -26,6 +28,8 @@ public class TransactionServiceImpl implements TransactionService{
     private final TransactionRepository transactionRepository;
 
     private final WalletCacheService walletCacheService;
+
+    private final KafkaProducerService kafkaProducerService;
     @Override
     public void transfer(TransferMoneyRequest request) {
 
@@ -65,6 +69,15 @@ public class TransactionServiceImpl implements TransactionService{
                 .build();
 
         transactionRepository.save(transaction);
+
+        MoneyTransferredEvent event = MoneyTransferredEvent.builder()
+                .senderWalletId(sender.getId())
+                .receiverWalletId(receiver.getId())
+                .amount(transaction.getAmount())
+                .transactionTime(transaction.getCreatedAt())
+                .build();
+
+        kafkaProducerService.sendMoneyTransferredEvent(event);
 
     }
 
