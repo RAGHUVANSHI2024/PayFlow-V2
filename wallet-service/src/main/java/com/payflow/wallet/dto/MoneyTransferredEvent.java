@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MoneyTransferredEvent {
 
+    private Long senderUserId;
+    private Long receiverUserId;
     private Long senderWalletId;
     private Long receiverWalletId;
     private BigDecimal amount;

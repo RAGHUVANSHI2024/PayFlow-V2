@@ -71,6 +71,8 @@ public class TransactionServiceImpl implements TransactionService{
         transactionRepository.save(transaction);
 
         MoneyTransferredEvent event = MoneyTransferredEvent.builder()
+                .senderUserId(sender.getUserId())
+                .receiverUserId(receiver.getUserId())
                 .senderWalletId(sender.getId())
                 .receiverWalletId(receiver.getId())
                 .amount(transaction.getAmount())

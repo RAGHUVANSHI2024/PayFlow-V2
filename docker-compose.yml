@@ -116,6 +116,20 @@ services:
 
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  notification-service:
+    image: payflow-notification
+    container_name: payflow-notification
+
+    depends_on:
+      - config-server
+      - eureka-server
+      - kafka
+
+    ports:
+      - "8084:8084"
+
+    environment:
+      SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
 
 volumes:
   mysql-data:

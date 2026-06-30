@@ -39,6 +39,7 @@ public class JwtAuthFilter implements GlobalFilter {
         }
 
         String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        log.info("Auth Header: {}", authHeader);
 
         if (authHeader == null || !authHeader.startsWith("Bearer")){
             log.info("AuthHeader is null or does not start with Bearer !!");
@@ -50,6 +51,7 @@ public class JwtAuthFilter implements GlobalFilter {
         try{
             String token = jwtUtil.extractTokenFromHeader(authHeader);
 
+            log.info("TOKEN = {}", token);
             String email = jwtUtil.extractEmail(token);
 
             if (!jwtUtil.isTokenValid(token,email)){
@@ -62,6 +64,8 @@ public class JwtAuthFilter implements GlobalFilter {
             Long userId = jwtUtil.extractUserId(token);
 
             String role = jwtUtil.extractRole(token);
+
+            log.info("UserId: {}, Role: {}", userId, role);
 
             ServerHttpRequest mutatedRequest = request.mutate()
                     .header("X-User-Id", String.valueOf(userId))
@@ -76,8 +80,8 @@ public class JwtAuthFilter implements GlobalFilter {
 
             return chain.filter(mutatedExchange);
         }
-        catch (Exception e){
-            log.info("SomeThing wrong for extracting JwtToken !");
+        catch (Exception e) {
+            log.error("JWT Exception", e);
             exchange.getResponse()
                     .setStatusCode(HttpStatus.UNAUTHORIZED);
 
