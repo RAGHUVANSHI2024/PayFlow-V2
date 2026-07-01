@@ -12,7 +12,6 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Ensure this string is exactly identical in both projects!
     private final String SECRET = "mysecretkeymysecretkeymysecretkey123456";
     private final long EXPIRATION = 1000 * 60 * 60 * 24;
 

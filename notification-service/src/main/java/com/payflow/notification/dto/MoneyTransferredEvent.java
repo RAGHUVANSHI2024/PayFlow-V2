@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 @Builder
 public class MoneyTransferredEvent {
 
+    private Long senderUserId;
+
+    private Long receiverUserId;
+
     private Long senderWalletId;
 
     private Long receiverWalletId;
