@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -71,11 +73,13 @@ public class TransactionServiceImpl implements TransactionService{
         transactionRepository.save(transaction);
 
         MoneyTransferredEvent event = MoneyTransferredEvent.builder()
+                .eventId(UUID.randomUUID().toString())
                 .senderUserId(sender.getUserId())
                 .receiverUserId(receiver.getUserId())
                 .senderWalletId(sender.getId())
                 .receiverWalletId(receiver.getId())
                 .amount(transaction.getAmount())
+                .status(transaction.getStatus().toString())
                 .transactionTime(transaction.getCreatedAt())
                 .build();
 

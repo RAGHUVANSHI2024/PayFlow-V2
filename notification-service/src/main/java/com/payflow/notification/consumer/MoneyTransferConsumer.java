@@ -22,7 +22,8 @@ public class MoneyTransferConsumer {
 
         notificationService.createTransferNotification(event);
 
-        log.info("Transfer notification saved successfully.");
+        throw  new RuntimeException("Testing Retry");
+        //log.info("Transfer notification saved successfully.");
     }
 
 }

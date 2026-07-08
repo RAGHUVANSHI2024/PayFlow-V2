@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Builder
 public class MoneyTransferredEvent {
 
+    private String eventId;
+
     private Long senderUserId;
 
     private Long receiverUserId;
@@ -21,6 +23,8 @@ public class MoneyTransferredEvent {
     private Long receiverWalletId;
 
     private BigDecimal amount;
+
+    private String status;
 
     private LocalDateTime transactionTime;
 
