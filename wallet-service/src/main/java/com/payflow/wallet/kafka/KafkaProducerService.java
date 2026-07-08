@@ -17,7 +17,10 @@ public class KafkaProducerService {
 
     public void sendMoneyTransferredEvent(MoneyTransferredEvent event) {
 
-        kafkaTemplate.send(MONEY_TRANSFER, event);
+        kafkaTemplate.send(
+                MONEY_TRANSFER,
+                event.getSenderUserId().toString(),
+                event);
 
         log.info("MoneyTransferredEvent publish : {}", event);
     }

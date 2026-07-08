@@ -14,10 +14,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MoneyTransferredEvent {
 
+    private String eventId;
     private Long senderUserId;
     private Long receiverUserId;
     private Long senderWalletId;
     private Long receiverWalletId;
     private BigDecimal amount;
+    private String status;
     private LocalDateTime transactionTime;
 }
