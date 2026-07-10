@@ -15,12 +15,12 @@ public class KafkaProducerService {
 
     private static final String MONEY_TRANSFER = "money-transfer-topic";
 
-    public void sendMoneyTransferredEvent(MoneyTransferredEvent event) {
+    public void sendMoneyTransferredEvent(MoneyTransferredEvent event)throws Exception {
 
         kafkaTemplate.send(
                 MONEY_TRANSFER,
                 event.getSenderUserId().toString(),
-                event);
+                event).get();
 
         log.info("MoneyTransferredEvent publish : {}", event);
     }
