@@ -1,13 +1,17 @@
 package com.payflow.wallet.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payflow.wallet.Exception.InsufficientBalanceException;
 import com.payflow.wallet.Exception.WalletIdNotFoundException;
 import com.payflow.wallet.dto.MoneyTransferredEvent;
 import com.payflow.wallet.dto.TransferMoneyRequest;
+import com.payflow.wallet.entity.OutboxEvent;
 import com.payflow.wallet.entity.Transaction;
 import com.payflow.wallet.entity.Wallet;
+import com.payflow.wallet.enums.OutboxStatus;
 import com.payflow.wallet.enums.TransactionStatus;
 import com.payflow.wallet.kafka.KafkaProducerService;
+import com.payflow.wallet.repository.OutboxRepository;
 import com.payflow.wallet.repository.TransactionRepository;
 import com.payflow.wallet.repository.WalletRepository;
 import jakarta.transaction.Transactional;
@@ -18,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -32,6 +37,10 @@ public class TransactionServiceImpl implements TransactionService{
     private final WalletCacheService walletCacheService;
 
     private final KafkaProducerService kafkaProducerService;
+
+    private final OutboxRepository outboxRepository;
+
+    private final ObjectMapper objectMapper;
     @Override
     public void transfer(TransferMoneyRequest request) {
 
@@ -83,7 +92,21 @@ public class TransactionServiceImpl implements TransactionService{
                 .transactionTime(transaction.getCreatedAt())
                 .build();
 
-        kafkaProducerService.sendMoneyTransferredEvent(event);
+
+        try{
+            OutboxEvent outboxEvent = OutboxEvent.builder()
+                    .eventId(event.getEventId())
+                    .eventType("Money TransferredEvent")
+                    .payload(objectMapper.writeValueAsString(event))
+                    .status(OutboxStatus.PENDING)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            outboxRepository.save(outboxEvent);
+
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
 
     }
 
