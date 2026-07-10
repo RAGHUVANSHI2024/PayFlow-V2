@@ -19,7 +19,7 @@ public class KafkaTopicConfig {
     @Bean
     public NewTopic moneyTransferDLT(){
         return TopicBuilder
-                .name("money-transfer-topic.DLT")
+                .name("money-transfer-topic-dlt")
                 .partitions(3)
                 .replicas(1)
                 .build();

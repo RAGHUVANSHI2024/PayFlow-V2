@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class DeadLetterConsumer {
 
     @KafkaListener(
-            topics = "money-transfer-topic.DLT",
+            topics = "money-transfer-topic-dlt",
             groupId = "notification-dlt-group"
     )
     public void consumeDeadLetter(MoneyTransferredEvent event){
 
-        log.error("DLT Event Received {}", event);
+        log.error("DLT Event Received : {}", event);
     }
 }
