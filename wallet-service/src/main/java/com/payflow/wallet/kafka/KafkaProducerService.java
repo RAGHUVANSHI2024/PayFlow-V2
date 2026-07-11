@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.CompletableFuture;
+
+import org.springframework.kafka.support.SendResult;
 
 @Service
 @RequiredArgsConstructor
@@ -15,13 +18,13 @@ public class KafkaProducerService {
 
     private static final String MONEY_TRANSFER = "money-transfer-topic";
 
-    public void sendMoneyTransferredEvent(MoneyTransferredEvent event)throws Exception {
+    public CompletableFuture<SendResult<String, MoneyTransferredEvent>>
+    sendMoneyTransferredEvent(MoneyTransferredEvent event) {
 
-        kafkaTemplate.send(
+        return kafkaTemplate.send(
                 MONEY_TRANSFER,
                 event.getSenderUserId().toString(),
-                event).get();
-
-        log.info("MoneyTransferredEvent publish : {}", event);
+                event
+        );
     }
 }

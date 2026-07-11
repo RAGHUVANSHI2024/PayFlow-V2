@@ -96,7 +96,7 @@ public class TransactionServiceImpl implements TransactionService{
         try{
             OutboxEvent outboxEvent = OutboxEvent.builder()
                     .eventId(event.getEventId())
-                    .eventType("Money TransferredEvent")
+                    .eventType(MoneyTransferredEvent.class.getName())
                     .payload(objectMapper.writeValueAsString(event))
                     .status(OutboxStatus.PENDING)
                     .createdAt(LocalDateTime.now())
