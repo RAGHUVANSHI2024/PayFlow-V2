@@ -26,7 +26,7 @@ public class OutboxEvent {
     private String eventType;
 
     @Lob
-    @Column(nullable = false)
+    @Column(columnDefinition = "LONGTEXT")
     private String payload;
 
     @Enumerated(EnumType.STRING)
@@ -35,4 +35,12 @@ public class OutboxEvent {
     private LocalDateTime createdAt;
 
     private LocalDateTime publishedAt;
+
+    @Builder.Default
+    private Integer retryCount =0;
+
+    private LocalDateTime lastRetryAt;
+
+    @Version
+    private Long version;
 }

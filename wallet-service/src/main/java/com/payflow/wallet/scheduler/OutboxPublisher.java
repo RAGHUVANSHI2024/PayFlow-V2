@@ -8,6 +8,9 @@ import com.payflow.wallet.kafka.KafkaProducerService;
 import com.payflow.wallet.repository.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -28,13 +31,22 @@ public class OutboxPublisher {
     @Scheduled(fixedDelay = 5000)
     public void publishPendingEvent(){
 
-        List<OutboxEvent> events = outboxRepository.findByStatus(OutboxStatus.PENDING);
+        Page<OutboxEvent> page =
+                outboxRepository.findByStatusIn(
+                        List.of(
+                OutboxStatus.PENDING,
+                OutboxStatus.FAILED
+        ),
+                PageRequest.of(0,100)
+                );
+
+        List<OutboxEvent> events = page.getContent();
 
         if (events.isEmpty()){
             return;
         }
 
-        log.info("Found {} pending events .",events);
+        log.info("Found {} pending events .",events.size());
 
         events.forEach(outboxEvent -> {
             try {
@@ -45,21 +57,56 @@ public class OutboxPublisher {
                                 MoneyTransferredEvent.class
                         );
 
-                kafkaProducerService.sendMoneyTransferredEvent(event);
+                kafkaProducerService
+                        .sendMoneyTransferredEvent(event).whenComplete((result, ex) -> {
+                            try {
+                                if (ex == null) {
 
-                outboxEvent.setStatus(OutboxStatus.PUBLISHED);
-                outboxEvent.setPublishedAt(LocalDateTime.now());
+                                    outboxEvent.setStatus(OutboxStatus.PUBLISHED);
+                                    outboxEvent.setPublishedAt(LocalDateTime.now());
 
-                outboxRepository.save(outboxEvent);
+                                    outboxRepository.save(outboxEvent);
 
-                log.info("Published Event : {}",outboxEvent.getEventId());
+                                    log.info("Published Event : {}", outboxEvent.getEventId());
 
-            }catch (Exception e){
-                log.error("Failed to publish Event : {}", outboxEvent.getEventId(), e);
+                                } else {
 
-                outboxEvent.setStatus(OutboxStatus.PENDING);
+                                    int retry = outboxEvent.getRetryCount() == null
+                                            ? 0
+                                            : outboxEvent.getRetryCount();
 
-                outboxRepository.save(outboxEvent);
+                                    retry++;
+
+                                    outboxEvent.setRetryCount(retry);
+                                    outboxEvent.setLastRetryAt(LocalDateTime.now());
+
+                                    if (retry >= 5) {
+
+                                        outboxEvent.setStatus(OutboxStatus.FAILED);
+
+                                    } else {
+
+                                        outboxEvent.setStatus(OutboxStatus.PENDING);
+
+                                    }
+
+                                    outboxRepository.save(outboxEvent);
+
+                                    log.error("Kafka publish failed", ex);
+
+                                }
+                            }catch (ObjectOptimisticLockingFailureException e) {
+
+                                log.warn(
+                                        "Event {} already processed by another scheduler.",
+                                        outboxEvent.getEventId()
+                                );
+
+                            }
+                        });
+            }catch (Exception ex){
+
+                log.error("Outbox processing failed , ex");
             }
         });
 
