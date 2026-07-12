@@ -104,6 +104,7 @@ public class OutboxPublisher {
 
                             }
                         });
+
             }catch (Exception ex){
 
                 log.error("Outbox processing failed , ex");
