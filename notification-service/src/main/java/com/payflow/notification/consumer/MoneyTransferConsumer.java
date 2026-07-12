@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ExecutionException;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class MoneyTransferConsumer {
             topics = "money-transfer-topic",
             groupId = "notification-group"
     )
-    public void consume(MoneyTransferredEvent event){
+    public void consume(MoneyTransferredEvent event) throws ExecutionException, InterruptedException {
 
         notificationService.createTransferNotification(event);
 
