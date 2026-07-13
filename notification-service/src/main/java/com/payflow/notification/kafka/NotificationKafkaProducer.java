@@ -28,7 +28,7 @@ public class NotificationKafkaProducer {
 
         return kafkaTemplate.send(
                 NOTIFICATION_CREATED_TOPIC,
-                event.getOriginalEventID(),
+                event.getOriginalEventId(),
                 event
         );
     }

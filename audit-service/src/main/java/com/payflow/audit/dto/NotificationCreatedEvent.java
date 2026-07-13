@@ -1,4 +1,4 @@
-package com.payflow.notification.dto;
+package com.payflow.audit.dto;
 
 import lombok.*;
 

@@ -65,7 +65,7 @@ public class NotificationServiceImpl implements NotificationService {
 
             NotificationCreatedEvent createdEvent = NotificationCreatedEvent.builder()
                     .eventId(UUID.randomUUID().toString())
-                    .originalEventID(event.getEventId())
+                    .originalEventId(event.getEventId())
                     .senderUserId(event.getSenderUserId())
                     .receiverUserId(event.getReceiverUserId())
                     .createdAt(LocalDateTime.now())
@@ -75,7 +75,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .thenAccept(result ->
 
                             log.info("NotificationCreatedEvent published : {}",
-                                    createdEvent.getOriginalEventID()))
+                                    createdEvent.getOriginalEventId()))
 
                     .exceptionally(ex -> {
                         log.error("Failed to publish Notification ", ex

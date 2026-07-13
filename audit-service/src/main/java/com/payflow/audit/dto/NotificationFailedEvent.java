@@ -1,16 +1,15 @@
-package com.payflow.notification.dto;
+package com.payflow.audit.dto;
 
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NotificationCreatedEvent {
+public class NotificationFailedEvent {
 
     private String eventId;
 
@@ -20,5 +19,8 @@ public class NotificationCreatedEvent {
 
     private Long receiverUserId;
 
-    private LocalDateTime createdAt;
+    private String reason;
+
+    private LocalDateTime failedAt;
+
 }
