@@ -1,0 +1,7 @@
+
+spring:
+  application:
+    name: saga-service
+
+  config:
+    import: optional:configserver:http://payflow-config:8888
