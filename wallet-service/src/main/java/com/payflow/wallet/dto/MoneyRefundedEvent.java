@@ -1,2 +1,24 @@
-package com.payflow.wallet.dto;public class MoneyRefundedEvent {
+package com.payflow.wallet.dto;
+
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class MoneyRefundedEvent {
+
+    private String eventId;
+
+    private Long senderWalletId;
+
+    private Long receiverWalletId;
+
+    private BigDecimal amount;
+
+    private LocalDateTime refundedAt;
 }

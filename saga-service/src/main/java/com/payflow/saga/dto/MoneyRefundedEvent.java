@@ -1,4 +1,4 @@
-package com.payflow.wallet.dto;
+package com.payflow.saga.dto;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MoneyDebitedEvent {
+public class MoneyRefundedEvent {
 
     private String eventId;
 
@@ -20,6 +20,5 @@ public class MoneyDebitedEvent {
 
     private BigDecimal amount;
 
-    private LocalDateTime debitedAt;
-
+    private LocalDateTime refundedAt;
 }

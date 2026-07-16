@@ -1,6 +1,6 @@
 package com.payflow.wallet.kafka;
 
-import com.payflow.wallet.dto.MoneyTransferredEvent;
+import com.payflow.wallet.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,16 +14,87 @@ import org.springframework.kafka.support.SendResult;
 @Slf4j
 public class KafkaProducerService {
 
-    private final KafkaTemplate<String, MoneyTransferredEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     private static final String MONEY_TRANSFER = "money-transfer-topic";
 
-    public CompletableFuture<SendResult<String, MoneyTransferredEvent>>
+    private static final String MONEY_DEBIT_FAILED = "money-debit-failed-topic";
+
+    private static final String MONEY_DEBITED = "money-debited-topic";
+
+    private static final String MONEY_CREDITED = "money-credited-topic";
+
+    private static final String MONEY_CREDITED_FAILED = "money-credit-failed-topic";
+
+    private static final String MONEY_REFUNDED_EVENT = "money-refunded-topic";
+
+    private static final String TRANSFER_REQUESTED =
+            "transfer-requested-topic";
+    public CompletableFuture<SendResult<String, Object>>
     sendMoneyTransferredEvent(MoneyTransferredEvent event) {
 
         return kafkaTemplate.send(
                 MONEY_TRANSFER,
                 event.getSenderUserId().toString(),
+                event
+        );
+    }
+    public CompletableFuture<SendResult<String, Object>>
+    sendTransferRequestedEvent(
+            TransferRequestedEvent event) {
+
+        return kafkaTemplate.send(
+                TRANSFER_REQUESTED,
+                event.getSenderWalletId().toString(),
+                event
+        );
+    }
+
+    public CompletableFuture<SendResult<String,Object>>
+    publishMoneyDebitFailed(MoneyDebitFailedEvent event){
+
+        return kafkaTemplate.send(
+                MONEY_DEBIT_FAILED,
+                event.getEventId(),
+                event
+        );
+    }
+
+    public CompletableFuture<SendResult<String , Object>>
+    publishMoneyDebited(MoneyDebitedEvent event){
+
+        return kafkaTemplate.send(
+                MONEY_DEBITED,
+                event.getEventId(),
+                event
+        );
+    }
+
+    public CompletableFuture<SendResult<String,Object>>
+    publishMoneyCredited(MoneyCreditedEvent event){
+
+        return kafkaTemplate.send(
+                MONEY_CREDITED,
+                event.getEventId(),
+                event
+        );
+    }
+    public CompletableFuture<SendResult<String,Object>>
+    publishMoneyCreditFailed(MoneyCreditFailedEvent event){
+
+        return kafkaTemplate.send(
+                MONEY_CREDITED_FAILED,
+                event.getEventId(),
+                event
+        );
+    }
+
+    public CompletableFuture<SendResult<String,Object>>
+    publishMoneyRefunded(MoneyRefundedEvent event) {
+
+         return kafkaTemplate.send(
+                MONEY_REFUNDED_EVENT,
+                event.getEventId(),
                 event
         );
     }

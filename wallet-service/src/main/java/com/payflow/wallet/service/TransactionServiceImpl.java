@@ -10,7 +10,6 @@ import com.payflow.wallet.entity.Transaction;
 import com.payflow.wallet.entity.Wallet;
 import com.payflow.wallet.enums.OutboxStatus;
 import com.payflow.wallet.enums.TransactionStatus;
-import com.payflow.wallet.kafka.KafkaProducerService;
 import com.payflow.wallet.repository.OutboxRepository;
 import com.payflow.wallet.repository.TransactionRepository;
 import com.payflow.wallet.repository.WalletRepository;
@@ -35,8 +34,6 @@ public class TransactionServiceImpl implements TransactionService{
     private final TransactionRepository transactionRepository;
 
     private final WalletCacheService walletCacheService;
-
-    private final KafkaProducerService kafkaProducerService;
 
     private final OutboxRepository outboxRepository;
 

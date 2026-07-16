@@ -1,8 +1,8 @@
 package com.payflow.notification.service;
 
-import com.payflow.notification.dto.MoneyTransferredEvent;
 import com.payflow.notification.dto.NotificationCreatedEvent;
 import com.payflow.notification.dto.NotificationFailedEvent;
+import com.payflow.notification.dto.SendNotificationCommand;
 import com.payflow.notification.entity.Notification;
 import com.payflow.notification.entity.ProcessedEvent;
 import com.payflow.notification.enums.NotificationType;
@@ -31,24 +31,24 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationKafkaProducer notificationKafkaProducer;
 
     @Override
-    public void createTransferNotification(MoneyTransferredEvent event) throws ExecutionException, InterruptedException {
+    public void sendNotification(SendNotificationCommand command) {
 
         try {
 
-            if (processedEventRepository.existsByEventId(event.getEventId())) {
-                log.info("Duplicate Event Ignored : {}", event.getEventId());
+            if (processedEventRepository.existsByEventId(command.getEventId())) {
+                log.info("Duplicate Event Ignored : {}", command.getEventId());
                 return;
             }
             Notification senderNotification = Notification.builder()
-                    .userId(event.getSenderUserId())
-                    .message("You sent ₹" + event.getAmount() + " successfully.")
+                    .userId(command.getSenderUserId())
+                    .message("You sent ₹" + command.getAmount() + " successfully.")
                     .type(NotificationType.TRANSFER)
                     .isRead(false)
                     .build();
 
             Notification receiverNotification = Notification.builder()
-                    .userId(event.getReceiverUserId())
-                    .message("You received ₹" + event.getAmount() + " successfully.")
+                    .userId(command.getReceiverUserId())
+                    .message("You received ₹" + command.getAmount() + " successfully.")
                     .type(NotificationType.TRANSFER)
                     .isRead(false)
                     .build();
@@ -57,7 +57,7 @@ public class NotificationServiceImpl implements NotificationService {
             notificationRepository.save(receiverNotification);
 
             ProcessedEvent processedEvent = ProcessedEvent.builder()
-                    .eventId(event.getEventId())
+                    .eventId(command.getEventId())
                     .processedAt(LocalDateTime.now())
                     .build();
 
@@ -65,9 +65,8 @@ public class NotificationServiceImpl implements NotificationService {
 
             NotificationCreatedEvent createdEvent = NotificationCreatedEvent.builder()
                     .eventId(UUID.randomUUID().toString())
-                    .originalEventId(event.getEventId())
-                    .senderUserId(event.getSenderUserId())
-                    .receiverUserId(event.getReceiverUserId())
+                    .originalEventId(command.getEventId())
+                    .senderUserId(command.getReceiverUserId())
                     .createdAt(LocalDateTime.now())
                     .build();
 
@@ -87,16 +86,21 @@ public class NotificationServiceImpl implements NotificationService {
 
             NotificationFailedEvent failedEvent = NotificationFailedEvent.builder()
                     .eventId(UUID.randomUUID().toString())
-                    .originalEventId(event.getEventId())
-                    .senderUserId(event.getSenderUserId())
-                    .receiverUserId(event.getReceiverUserId())
+                    .originalEventId(command.getEventId())
+                    .senderUserId(command.getSenderUserId())
+                    .receiverUserId(command.getReceiverUserId())
                     .reason(ex.getMessage())
                     .failedAt(LocalDateTime.now())
                     .build();
 
-            notificationKafkaProducer.publishNotificationFailed(failedEvent).get();
-
-            throw ex;
+            notificationKafkaProducer.publishNotificationFailed(failedEvent)
+                    .thenAccept(result ->
+                            log.info("NotificationFailedEvent published : {}",
+                                    failedEvent.getOriginalEventId()))
+                    .exceptionally(e -> {
+                        log.error("Unable to publish NotificationFailedEvent", e);
+                        return null;
+                    });
         }
     }
 }

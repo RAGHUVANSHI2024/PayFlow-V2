@@ -166,5 +166,20 @@ services:
       SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
       SPRING_KAFKA_BOOTSTRAP_SERVERS: payflow-kafka:9092
 
+  saga-service:
+    image: payflow-saga
+    container_name: payflow-saga
+
+    depends_on:
+      - config-server
+      - eureka-server
+      - kafka
+
+    ports:
+      - "8086:8086"
+
+    environment:
+      SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
+
 volumes:
   mysql-data:

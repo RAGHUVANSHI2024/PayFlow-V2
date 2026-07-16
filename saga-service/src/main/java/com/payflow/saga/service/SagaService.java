@@ -12,5 +12,5 @@ public interface SagaService {
 
     void moneyCreditFailed(MoneyCreditFailedEvent event);
 
-    void refund(RefundMoneyCommand command);
+    void moneyRefunded(MoneyRefundedEvent event);
 }
