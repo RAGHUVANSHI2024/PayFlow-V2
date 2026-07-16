@@ -171,9 +171,12 @@ services:
     container_name: payflow-saga
 
     depends_on:
-      - config-server
-      - eureka-server
-      - kafka
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
 
     ports:
       - "8086:8086"
