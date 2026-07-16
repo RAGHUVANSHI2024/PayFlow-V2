@@ -1,5 +1,4 @@
 package com.payflow.auth.entity;
-
 import com.payflow.auth.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
