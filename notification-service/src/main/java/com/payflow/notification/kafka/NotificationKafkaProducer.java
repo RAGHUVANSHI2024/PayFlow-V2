@@ -33,7 +33,7 @@ public class NotificationKafkaProducer {
         );
     }
 
-    public CompletableFuture<org.springframework.kafka.support.SendResult<String, Object>>
+    public CompletableFuture<SendResult<String, Object>>
     publishNotificationFailed(NotificationFailedEvent event){
 
         return kafkaTemplate.send(

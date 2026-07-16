@@ -1,25 +1,27 @@
-package com.payflow.saga.consumer;
+package com.payflow.wallet.consumer;
 
-import com.payflow.saga.dto.RefundMoneyCommand;
-import com.payflow.saga.service.SagaService;
+import com.payflow.wallet.dto.RefundMoneyCommand;
+import com.payflow.wallet.service.WalletSagaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class RefundMoneyConsumer {
 
-    private final SagaService sagaService;
+    private final WalletSagaService walletSagaService;
 
     @KafkaListener(
             topics = "refund-money-topic",
-            groupId = "saga-group"
+            groupId = "wallet-saga-group"
     )
     public void consume(RefundMoneyCommand command){
-        sagaService.refund(command);
+
+        walletSagaService.refund(command);
+
     }
 
 }

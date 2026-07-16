@@ -100,4 +100,13 @@ public class SagaServiceImpl implements SagaService{
                 });
 
     }
+    @Override
+    public void moneyRefunded(MoneyRefundedEvent event) {
+
+        log.info(
+                "Saga completed with compensation : {}",
+                event.getEventId()
+        );
+
+    }
 }
