@@ -104,9 +104,10 @@ This project focuses on practical implementation of:
 > **Note**
 >
 > This project is built as a learning-focused implementation inspired by enterprise backend architectures. The design will continue evolving with Kubernetes deployment, CI/CD pipelines, observability, and cloud-native practices.
->
 
-                    # 🏛️ System Architecture
+---
+
+                     🏛️ System Architecture
 
 ```mermaid
 flowchart TD
