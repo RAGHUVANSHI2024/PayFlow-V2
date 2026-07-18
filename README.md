@@ -300,4 +300,74 @@ To solve this, PayFlow uses the Transactional Outbox Pattern.
 
 This guarantees reliable event delivery even if Kafka is temporarily unavailable.
 
-         
+---
+
+# 📡 Kafka Topics Flow
+
+```mermaid
+flowchart LR
+
+    Client["👤 Client"]
+
+    Wallet["💰 Wallet Service"]
+
+    Saga["🎯 Saga Service"]
+
+    Notification["🔔 Notification Service"]
+
+    Audit["📝 Audit Service"]
+
+    Kafka[(Kafka)]
+
+    Client --> Wallet
+
+    Wallet -- TransferRequestedEvent --> Kafka
+
+    Kafka --> Saga
+
+    Saga -- DebitMoneyCommand --> Kafka
+    Kafka --> Wallet
+
+    Wallet -- MoneyDebitedEvent --> Kafka
+    Kafka --> Saga
+
+    Saga -- CreditMoneyCommand --> Kafka
+    Kafka --> Wallet
+
+    Wallet -- MoneyCreditedEvent --> Kafka
+    Kafka --> Saga
+
+    Saga -- SendNotificationCommand --> Kafka
+    Kafka --> Notification
+
+    Notification -- NotificationCreatedEvent --> Kafka
+    Kafka --> Audit
+
+    Notification -- NotificationFailedEvent --> Kafka
+    Kafka --> Audit
+
+    Saga -- RefundMoneyCommand --> Kafka
+    Kafka --> Wallet
+
+    Wallet -- MoneyRefundedEvent --> Kafka
+    Kafka --> Saga
+```
+
+## Kafka Communication Flow
+
+PayFlow uses Apache Kafka as the communication backbone between microservices.
+
+Instead of calling each service synchronously using REST APIs, services communicate by publishing and consuming events.
+
+This provides:
+
+- Loose coupling
+- Better scalability
+- Asynchronous processing
+- Fault tolerance
+- Independent deployments
+- Event-driven architecture
+
+Each service owns its own database and communicates only through Kafka events.
+
+---
