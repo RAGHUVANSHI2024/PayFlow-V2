@@ -259,25 +259,23 @@ sequenceDiagram
     participant Client
     participant WalletService
     participant WalletDB
-    participant OutboxTable
-    participant OutboxPublisher
+    participant Outbox
+    participant Publisher
     participant Kafka
 
-    Client->>WalletService: Transfer Money
+    Client->>WalletService: Transfer Request
 
-    WalletService->>WalletDB: Save Transaction
+    rect rgb(230,230,255)
+        WalletService->>WalletDB: Save Transaction
+        WalletService->>Outbox: Save Integration Event
+    end
 
-    WalletService->>OutboxTable: Save TransferRequestedEvent
+    WalletService-->>Client: Success Response
 
-    Note over WalletDB,OutboxTable:
-    Same Database Transaction
-
-    WalletService-->>Client: Transfer Accepted
-
-    loop Every Few Seconds
-        OutboxPublisher->>OutboxTable: Fetch PENDING Events
-        OutboxPublisher->>Kafka: Publish Event
-        OutboxPublisher->>OutboxTable: Mark as PUBLISHED
+    loop Every 5 Seconds
+        Publisher->>Outbox: Read Pending Events
+        Publisher->>Kafka: Publish Event
+        Publisher->>Outbox: Update Status = PUBLISHED
     end
 ```
 
