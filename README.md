@@ -104,3 +104,42 @@ This project focuses on practical implementation of:
 > **Note**
 >
 > This project is built as a learning-focused implementation inspired by enterprise backend architectures. The design will continue evolving with Kubernetes deployment, CI/CD pipelines, observability, and cloud-native practices.
+>
+
+                    API Clients
+                         │
+                         ▼
+                 ┌────────────────┐
+                 │  Auth Service  │
+                 └────────────────┘
+                         │
+                         ▼
+                 ┌────────────────┐
+                 │  User Service  │
+                 └────────────────┘
+                         │
+                         ▼
+                 ┌────────────────┐
+                 │ Wallet Service │
+                 └────────────────┘
+                         │
+                ┌────────┴────────┐
+                │                 │
+                ▼                 ▼
+         Wallet Database     Outbox Table
+                                   │
+                                   ▼
+                          Outbox Publisher
+                                   │
+                                   ▼
+                             Apache Kafka
+                                   │
+                ┌──────────────────┼──────────────────┐
+                ▼                  ▼                  ▼
+          Saga Service     Notification Service   Audit Service
+                │                  │                  │
+                ▼                  ▼                  ▼
+        Wallet Commands     Notification DB       Audit Database
+                │
+                ▼
+         Wallet Service
