@@ -248,5 +248,54 @@ flowchart TD
 
     O --> P
 ```
+---
+# 📦 Transactional Outbox Pattern
+
+```mermaid
+sequenceDiagram
+
+    participant Client
+    participant WalletService
+    participant WalletDB
+    participant OutboxTable
+    participant OutboxPublisher
+    participant Kafka
+
+    Client->>WalletService: Transfer Money
+
+    WalletService->>WalletDB: Save Transaction
+
+    WalletService->>OutboxTable: Save TransferRequestedEvent
+
+    Note over WalletDB,OutboxTable:
+    Same Database Transaction
+
+    WalletService-->>Client: Transfer Accepted
+
+    loop Every Few Seconds
+        OutboxPublisher->>OutboxTable: Fetch PENDING Events
+        OutboxPublisher->>Kafka: Publish Event
+        OutboxPublisher->>OutboxTable: Mark as PUBLISHED
+    end
+```
+## Why Transactional Outbox?
+
+Without the Outbox Pattern, the following issue can occur:
+
+1. Wallet transaction is committed.
+2. Kafka is unavailable.
+3. Event is never published.
+4. Other services never receive the event.
+
+This causes data inconsistency across microservices.
+
+To solve this, PayFlow uses the Transactional Outbox Pattern.
+
+- The wallet transaction and integration event are stored in the same database transaction.
+- An Outbox Publisher periodically scans the Outbox table.
+- Pending events are published to Kafka.
+- Successfully published events are marked as `PUBLISHED`.
+
+This guarantees reliable event delivery even if Kafka is temporarily unavailable.
 
          
