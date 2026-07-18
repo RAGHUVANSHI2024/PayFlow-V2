@@ -1,5 +1,6 @@
 package com.payflow.notification.service;
 
+import com.payflow.notification.dto.MoneyTransferredEvent;
 import com.payflow.notification.dto.NotificationCreatedEvent;
 import com.payflow.notification.dto.NotificationFailedEvent;
 import com.payflow.notification.dto.SendNotificationCommand;
@@ -31,7 +32,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationKafkaProducer notificationKafkaProducer;
 
     @Override
-    public void sendNotification(SendNotificationCommand command) {
+    public void sendNotification(MoneyTransferredEvent command) {
 
         try {
 

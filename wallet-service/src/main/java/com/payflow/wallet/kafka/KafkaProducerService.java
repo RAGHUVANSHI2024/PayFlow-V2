@@ -40,7 +40,7 @@ public class KafkaProducerService {
         );
     }
     public CompletableFuture<SendResult<String, Object>>
-    sendTransferRequestedEvent(
+    sendMoneyTransferRequestEvent(
             TransferRequestedEvent event) {
 
         return kafkaTemplate.send(
