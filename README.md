@@ -181,5 +181,74 @@ Notification Service generates user notifications and publishes notification eve
 
 Audit Service consumes business events and stores immutable audit logs for traceability.
 
+---
+
+# 🔄 Saga Pattern Workflow
+
+```mermaid
+flowchart TD
+
+    A["👤 Client requests Money Transfer"]
+
+    B["💰 Wallet Service<br/>Create TransferRequestedEvent"]
+
+    C["📡 Kafka"]
+
+    D["🎯 Saga Service"]
+
+    E["💸 Debit Wallet Command"]
+
+    F{"Debit Successful?"}
+
+    G["❌ MoneyDebitFailedEvent"]
+
+    H["💳 Credit Wallet Command"]
+
+    I{"Credit Successful?"}
+
+    J["💵 MoneyCreditedEvent"]
+
+    K["🔔 SendNotificationCommand"]
+
+    L{"Notification Successful?"}
+
+    M["✅ Saga Completed"]
+
+    N["💰 RefundMoneyCommand"]
+
+    O["💵 MoneyRefundedEvent"]
+
+    P["✅ Compensation Completed"]
+
+    A --> B
+    B --> C
+    C --> D
+
+    D --> E
+
+    E --> F
+
+    F -- No --> G
+
+    F -- Yes --> H
+
+    H --> I
+
+    I -- Yes --> J
+
+    I -- No --> N
+
+    J --> K
+
+    K --> L
+
+    L -- Yes --> M
+
+    L -- No --> N
+
+    N --> O
+
+    O --> P
+```
 
          
