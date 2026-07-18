@@ -249,7 +249,8 @@ flowchart TD
     O --> P
 ```
 ---
-# 📦 Transactional Outbox Pattern
+
+ 📦 Transactional Outbox Pattern
 
 ```mermaid
 sequenceDiagram
@@ -278,6 +279,7 @@ sequenceDiagram
         OutboxPublisher->>OutboxTable: Mark as PUBLISHED
     end
 ```
+---
 ## Why Transactional Outbox?
 
 Without the Outbox Pattern, the following issue can occur:
