@@ -248,9 +248,10 @@ flowchart TD
 
     O --> P
 ```
+
 ---
 
-# 📦 Transactional Outbox Pattern
+      # 📦 Transactional Outbox Pattern
 
 ```mermaid
 sequenceDiagram
