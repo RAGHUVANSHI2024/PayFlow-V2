@@ -106,40 +106,79 @@ This project focuses on practical implementation of:
 > This project is built as a learning-focused implementation inspired by enterprise backend architectures. The design will continue evolving with Kubernetes deployment, CI/CD pipelines, observability, and cloud-native practices.
 >
 
-                    API Clients
-                         │
-                         ▼
-                 ┌────────────────┐
-                 │  Auth Service  │
-                 └────────────────┘
-                         │
-                         ▼
-                 ┌────────────────┐
-                 │  User Service  │
-                 └────────────────┘
-                         │
-                         ▼
-                 ┌────────────────┐
-                 │ Wallet Service │
-                 └────────────────┘
-                         │
-                ┌────────┴────────┐
-                │                 │
-                ▼                 ▼
-         Wallet Database     Outbox Table
-                                   │
-                                   ▼
-                          Outbox Publisher
-                                   │
-                                   ▼
-                             Apache Kafka
-                                   │
-                ┌──────────────────┼──────────────────┐
-                ▼                  ▼                  ▼
-          Saga Service     Notification Service   Audit Service
-                │                  │                  │
+                    # 🏛️ System Architecture
+
+```mermaid
+flowchart TD
+
+    Client["👤 Client"]
+
+    Auth["🔐 Auth Service"]
+    User["👤 User Service"]
+    Wallet["💰 Wallet Service"]
+
+    Outbox["📦 Outbox Table"]
+    Publisher["📤 Outbox Publisher"]
+
+    Kafka["📡 Apache Kafka"]
+
+    Saga["🎯 Saga Service"]
+
+    Notification["🔔 Notification Service"]
+
+    Audit["📑 Audit Service"]
+
+    WalletDB[("Wallet DB")]
+    NotificationDB[("Notification DB")]
+    AuditDB[("Audit DB")]
+
+    Client --> Auth
+    Client --> User
+    Client --> Wallet
+
+    Wallet --> WalletDB
+
+    Wallet --> Outbox
+
+    Outbox --> Publisher
+
+    Publisher --> Kafka
+
+    Kafka --> Saga
+
+    Saga --> Kafka
+
+    Kafka --> Notification
+
+    Notification --> NotificationDB
+
+    Notification --> Kafka
+
+    Kafka --> Audit
+
+    Audit --> AuditDB
+```
                 ▼                  ▼                  ▼
         Wallet Commands     Notification DB       Audit Database
                 │
                 ▼
          Wallet Service
+
+## Architecture Overview
+
+PayFlow follows an event-driven microservices architecture.
+
+The client interacts with the Wallet, Auth, and User services through REST APIs.
+
+The Wallet Service persists transactions and writes integration events into an Outbox table.
+
+An Outbox Publisher asynchronously publishes these events to Apache Kafka, ensuring reliable event delivery.
+
+The Saga Service orchestrates distributed transactions by coordinating debit, credit, notification, and compensation workflows.
+
+Notification Service generates user notifications and publishes notification events.
+
+Audit Service consumes business events and stores immutable audit logs for traceability.
+
+
+         
