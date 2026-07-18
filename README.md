@@ -242,8 +242,6 @@ flowchart TD
 
     K --> L
 
-    L -- Yes --> M
-
     L -- No --> N
 
     N --> O
