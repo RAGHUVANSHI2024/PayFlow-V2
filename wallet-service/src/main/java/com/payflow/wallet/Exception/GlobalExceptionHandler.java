@@ -1,6 +1,7 @@
 package com.payflow.wallet.Exception;
 
 import com.payflow.wallet.response.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,7 +31,7 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
 }

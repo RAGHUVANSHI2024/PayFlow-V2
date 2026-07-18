@@ -31,14 +31,12 @@ public class TransactionController {
             description = "Money transfer from one wallet to another"
     )
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Success"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Transfer initiated successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid Request"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Wallet Not Found"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal Server Error")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "Insufficient balance")
     })
-    public ResponseEntity<ApiResponse<Void>> transfer(
-           @Valid @RequestBody TransferMoneyRequest request
-    ){
+    public ResponseEntity<ApiResponse<Void>> transfer(@Valid @RequestBody TransferMoneyRequest request){
         transactionService.transfer(request);
 
         ApiResponse response = ApiResponse.builder()
@@ -64,7 +62,8 @@ public class TransactionController {
             description = "Wallet Id",
             example = "1"
     )
-    public ResponseEntity<ApiResponse<Page<Transaction>>> getHistory(@PathVariable Long walletId,
+    public ResponseEntity<ApiResponse<Page<Transaction>>> getHistory(
+                                        @PathVariable Long walletId,
                                         @RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "5") int size){
 

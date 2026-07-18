@@ -7,6 +7,6 @@ import java.util.concurrent.ExecutionException;
 
 public interface NotificationService {
 
-    void sendNotification(SendNotificationCommand command);
+    void sendNotification(MoneyTransferredEvent command);
 
 }

@@ -20,9 +20,9 @@ public class MoneyTransferConsumer {
             topics = "money-transfer-topic",
             groupId = "notification-group"
     )
-    public void consume(MoneyTransferredEvent event) throws ExecutionException, InterruptedException {
+    public void consume(MoneyTransferredEvent event) {
 
-        notificationService.createTransferNotification(event);
+        notificationService.sendNotification(event);
 
         log.info("Transfer notification saved successfully.");
     }

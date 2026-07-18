@@ -21,6 +21,6 @@ public class SendNotificationConsumer {
             groupId = "notification-group"
     )
     public void consume(SendNotificationCommand command) {
-        notificationService.sendNotification(command);
+      //  notificationService.sendNotification(command);
     }
 }
