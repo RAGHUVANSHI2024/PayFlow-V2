@@ -468,3 +468,167 @@ Each microservice owns its own database.
 No service directly accesses another service's database.
 
 All communication happens through Kafka events.
+
+---
+
+# 🐳 Docker Setup
+
+## Prerequisites
+
+- Docker
+- Docker Compose
+- Java 21
+- Maven 3.9+
+
+## Build all services
+
+```bash
+mvn clean package
+```
+
+## Start Infrastructure
+
+```bash
+docker-compose up -d
+```
+
+This starts:
+
+- Apache Kafka
+- Zookeeper
+- MySQL
+- Redis
+
+## Run Spring Boot Services
+
+```bash
+mvn spring-boot:run
+```
+
+or run each service individually from your IDE.
+
+---
+
+# 📖 Swagger Documentation
+
+Each microservice exposes OpenAPI documentation.
+
+| Service | Swagger URL |
+|----------|-------------|
+| Auth Service | http://localhost:8081/swagger-ui/index.html |
+| User Service | http://localhost:8082/swagger-ui/index.html |
+| Wallet Service | http://localhost:8083/swagger-ui/index.html |
+| Saga Service | Internal Event Service |
+| Notification Service | Internal Event Service |
+| Audit Service | Internal Event Service |
+
+> Saga, Notification and Audit are event-driven services and therefore do not expose REST APIs for business operations.
+
+---
+
+# 🧪 Testing
+
+The project contains automated tests covering:
+
+- Unit Tests
+- Service Layer Tests
+- Repository Tests
+- Controller Tests
+- Kafka Integration Tests
+- Compensation Flow Tests
+
+Run all tests:
+
+```bash
+mvn test
+```
+
+Generate test report:
+
+```bash
+mvn verify
+```
+
+---
+
+# 🚀 Running PayFlow
+
+## Clone Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/PayFlow.git
+```
+
+## Move into project
+
+```bash
+cd PayFlow
+```
+
+## Build
+
+```bash
+mvn clean install
+```
+
+## Start Docker
+
+```bash
+docker-compose up -d
+```
+
+## Start all Spring Boot services
+
+Run each microservice.
+
+Then open Swagger.
+
+Example:
+
+```
+http://localhost:8083/swagger-ui/index.html
+```
+
+Create:
+
+1. User
+2. Wallet
+3. Transfer Money
+
+Observe:
+
+- Kafka Events
+- Saga Execution
+- Notification Creation
+- Audit Logs
+
+---
+
+# 📂 Project Structure
+
+```
+PayFlow
+│
+├── auth-service
+├── user-service
+├── wallet-service
+├── saga-service
+├── notification-service
+├── audit-service
+│
+├── docker-compose.yml
+├── README.md
+│
+└── docs
+      ├── architecture
+      ├── diagrams
+      └── screenshots
+```
+
+---
+
+# 📜 License
+
+This project is built for educational and portfolio purposes.
+
+Feel free to fork and learn from it.
