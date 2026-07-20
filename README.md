@@ -712,38 +712,6 @@ Future enhancements planned for PayFlow include:
 
 ---
 
-# 📦 Modules
-
-| Service | Responsibility |
-|----------|----------------|
-| Auth | Authentication & JWT |
-| User | User Profile |
-| Wallet | Wallet & Transactions |
-| Saga | Transaction Coordinator |
-| Notification | User Notifications |
-| Audit | Audit Logging |
-| Gateway | Single Entry Point |
-| Config | Centralize Configuration |
-
----
-
-# ✨ Features
-
-- JWT Authentication
-- Role Based Authorization
-- Wallet Management
-- Money Transfer
-- Event Driven Architecture
-- Saga Pattern
-- Transactional Outbox
-- Redis Caching
-- Kafka Messaging
-- Audit Logging
-- Swagger Documentation
-- Docker Support
-
----
-
 # 📚 What I Learned
 
 During the development of PayFlow I learned:
