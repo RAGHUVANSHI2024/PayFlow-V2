@@ -1,5 +1,18 @@
 # 💳 PayFlow
 
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen)
+![Kafka](https://img.shields.io/badge/Apache-Kafka-black)
+![MySQL](https://img.shields.io/badge/MySQL-8-blue)
+![Redis](https://img.shields.io/badge/Redis-Cache-red)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
+![Swagger](https://img.shields.io/badge/OpenAPI-3-success)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+---
+
+# 💳 PayFlow
+
 **PayFlow** is a production-inspired **Spring Boot Microservices** backend project that demonstrates how modern payment systems are designed using **event-driven architecture** and enterprise backend patterns.
 
 The project is built as a hands-on learning journey to understand how real-world financial systems manage authentication, wallet operations, distributed transactions, notifications, and audit logging while maintaining scalability and reliability.
@@ -556,7 +569,7 @@ mvn verify
 ## Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/PayFlow.git
+git clone https://github.com/RAGHUVANSHI2024/PayFlow-V2
 ```
 
 ## Move into project
