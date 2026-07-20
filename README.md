@@ -379,27 +379,26 @@ erDiagram
 
     AUTH_USERS {
         BIGINT id PK
-        STRING username
+        STRING full_name
         STRING email
         STRING password
         STRING role
-        DATETIME created_at
     }
 
     USER_PROFILE {
         BIGINT id PK
-        BIGINT user_id
-        STRING first_name
-        STRING last_name
-        STRING phone
-        STRING address
+        BIGINT auth_user_id
+        STRING full_name
+        STRING email
+        STRING role
     }
 
     WALLET {
         BIGINT id PK
         BIGINT user_id
+        STRING wallet_number
         DECIMAL balance
-        DATETIME created_at
+        STRING status
     }
 
     TRANSACTION {
@@ -418,6 +417,11 @@ erDiagram
         STRING payload
         STRING status
         DATETIME created_at
+        DATETIME published_at
+        BIGINT retry_count
+        DATETIME last_retry_at
+        BIGINT version
+        
     }
 
     NOTIFICATION {
