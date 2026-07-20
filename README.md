@@ -371,3 +371,96 @@ This provides:
 Each service owns its own database and communicates only through Kafka events.
 
 ---
+
+# 🗄️ Database Design
+
+```mermaid
+erDiagram
+
+    AUTH_USERS {
+        BIGINT id PK
+        STRING username
+        STRING email
+        STRING password
+        STRING role
+        DATETIME created_at
+    }
+
+    USER_PROFILE {
+        BIGINT id PK
+        BIGINT user_id
+        STRING first_name
+        STRING last_name
+        STRING phone
+        STRING address
+    }
+
+    WALLET {
+        BIGINT id PK
+        BIGINT user_id
+        DECIMAL balance
+        DATETIME created_at
+    }
+
+    TRANSACTION {
+        BIGINT id PK
+        BIGINT sender_wallet_id
+        BIGINT receiver_wallet_id
+        DECIMAL amount
+        STRING status
+        DATETIME created_at
+    }
+
+    OUTBOX_EVENT {
+        BIGINT id PK
+        STRING event_id
+        STRING event_type
+        STRING payload
+        STRING status
+        DATETIME created_at
+    }
+
+    NOTIFICATION {
+        BIGINT id PK
+        BIGINT user_id
+        STRING message
+        STRING type
+        BOOLEAN is_read
+        DATETIME created_at
+    }
+
+    PROCESSED_EVENT {
+        BIGINT id PK
+        STRING event_id
+        DATETIME processed_at
+    }
+
+    AUDIT_LOG {
+        BIGINT id PK
+        STRING event_id
+        STRING event_type
+        STRING service_name
+        STRING description
+        DATETIME created_at
+    }
+
+    AUTH_USERS ||--|| USER_PROFILE : owns
+    AUTH_USERS ||--|| WALLET : owns
+    WALLET ||--o{ TRANSACTION : sender
+    WALLET ||--o{ TRANSACTION : receiver
+```
+## Database Ownership
+
+Each microservice owns its own database.
+
+| Service | Database Tables |
+|----------|-----------------|
+| Auth Service | users |
+| User Service | user_profile |
+| Wallet Service | wallet, transaction, outbox_event |
+| Notification Service | notification, processed_event |
+| Audit Service | audit_log |
+
+No service directly accesses another service's database.
+
+All communication happens through Kafka events.
