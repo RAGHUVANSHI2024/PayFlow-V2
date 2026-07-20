@@ -46,7 +46,7 @@ The project is built as a hands-on learning journey to understand how real-world
 
 | Technology        | Purpose                        |
 | ----------------- | ------------------------------ |
-| Java 21           | Programming Language           |
+| Java 17           | Programming Language           |
 | Spring Boot       | Microservice Framework         |
 | Spring Security   | Authentication & Authorization |
 | JWT               | Secure Token Authentication    |
@@ -477,7 +477,7 @@ All communication happens through Kafka events.
 
 - Docker
 - Docker Compose
-- Java 21
+- Java 17
 - Maven 3.9+
 
 ## Build all services
@@ -624,6 +624,24 @@ PayFlow
       ├── diagrams
       └── screenshots
 ```
+
+---
+
+# 🔮 Future Improvements
+
+Future enhancements planned for PayFlow include:
+
+- Distributed Tracing (Zipkin)
+- Centralized Logging (ELK Stack)
+- Prometheus + Grafana Monitoring
+- Kubernetes Deployment
+- GitHub Actions CI/CD
+- Helm Charts
+- Resilience4j Circuit Breakers
+- Distributed Locking
+- Idempotency Keys
+- OAuth2 Authentication
+- Cloud Deployment (AWS)
 
 ---
 
