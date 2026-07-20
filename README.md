@@ -658,6 +658,109 @@ Future enhancements planned for PayFlow include:
 
 ---
 
+# 🌍 Complete Business Flow
+
+1. User registers
+2. User logs in
+3. JWT token generated
+4. Wallet created
+5. User transfers money
+6. Wallet publishes TransferRequestedEvent
+7. Saga coordinates transaction
+8. Notification sent
+9. Audit log stored
+10. Transaction completed
+
+---
+
+# 🛠 Technologies
+
+## Backend
+
+- Java 17
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Spring Validation
+
+## Messaging
+
+- Apache Kafka
+
+## Database
+
+- MySQL
+
+## Cache
+
+- Redis
+
+## Documentation
+
+- Swagger / OpenAPI
+
+## Containerization
+
+- Docker
+
+## Architecture
+
+- Microservices
+- Saga Pattern
+- Transactional Outbox
+- Event Driven Architecture
+
+---
+
+# 📦 Modules
+
+| Service | Responsibility |
+|----------|----------------|
+| Auth | Authentication & JWT |
+| User | User Profile |
+| Wallet | Wallet & Transactions |
+| Saga | Transaction Coordinator |
+| Notification | User Notifications |
+| Audit | Audit Logging |
+| Gateway | Single Entry Point |
+| Config | Centralize Configuration |
+
+---
+
+# ✨ Features
+
+- JWT Authentication
+- Role Based Authorization
+- Wallet Management
+- Money Transfer
+- Event Driven Architecture
+- Saga Pattern
+- Transactional Outbox
+- Redis Caching
+- Kafka Messaging
+- Audit Logging
+- Swagger Documentation
+- Docker Support
+
+---
+
+# 📚 What I Learned
+
+During the development of PayFlow I learned:
+
+- Designing Microservices
+- Event Driven Architecture
+- Apache Kafka
+- Saga Pattern
+- Compensation Transactions
+- Transactional Outbox
+- Redis Caching
+- JWT Authentication
+- Swagger Documentation
+- Docker
+- Clean Architecture
+
+---
 # 📜 License
 
 This project is built for educational and portfolio purposes.
