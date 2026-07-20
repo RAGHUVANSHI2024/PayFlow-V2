@@ -1,6 +1,6 @@
 # 💳 PayFlow
 
-![Java](https://img.shields.io/badge/Java-21-orange)
+![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen)
 ![Kafka](https://img.shields.io/badge/Apache-Kafka-black)
 ![MySQL](https://img.shields.io/badge/MySQL-8-blue)
