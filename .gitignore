@@ -1,0 +1,9 @@
+# IntelliJ IDEA files
+.idea/
+*.iml
+**/.idea/
+**/*.iml
+
+# Target build directories
+target/
+**/target/

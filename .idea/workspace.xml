@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e9f3ba2b-4c6d-4020-b93f-bea3f2b82805" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification-service.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/.idea/payment-service.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/.idea/workspace.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/kafka" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="3E2r63JvNv4NeSgpxVCfj7Pmo68" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/PayFlow-V2&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e9f3ba2b-4c6d-4020-b93f-bea3f2b82805" name="Changes" comment="" />
+      <created>1779387327209</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1779387327209</updated>
+      <workItem from="1779387328407" duration="2543000" />
+      <workItem from="1782296671476" duration="51000" />
+      <workItem from="1782297278179" duration="35321000" />
+      <workItem from="1782545158881" duration="7000" />
+      <workItem from="1782545269405" duration="9000" />
+      <workItem from="1782545351849" duration="13420000" />
+      <workItem from="1782645552695" duration="14000" />
+      <workItem from="1782800534130" duration="890000" />
+      <workItem from="1782806191813" duration="12848000" />
+      <workItem from="1783492839724" duration="19148000" />
+      <workItem from="1783668742647" duration="604000" />
+      <workItem from="1783670294872" duration="10470000" />
+      <workItem from="1783763136069" duration="1168000" />
+      <workItem from="1783841571367" duration="1123000" />
+      <workItem from="1783842734002" duration="2406000" />
+      <workItem from="1783863160711" duration="9634000" />
+      <workItem from="1784177954132" duration="7478000" />
+      <workItem from="1784280088137" duration="595000" />
+      <workItem from="1784280840578" duration="1188000" />
+      <workItem from="1784356229785" duration="595000" />
+      <workItem from="1784361495843" duration="1498000" />
+      <workItem from="1784554737900" duration="619000" />
+      <workItem from="1784800264095" duration="3120000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
