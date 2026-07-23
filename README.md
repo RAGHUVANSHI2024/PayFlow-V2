@@ -537,6 +537,9 @@ Each microservice exposes OpenAPI documentation.
 
 > Saga, Notification and Audit are event-driven services and therefore do not expose REST APIs for business operations.
 
+<img width="1343" height="626" alt="image" src="https://github.com/user-attachments/assets/58b481ab-cfd7-425b-bb0b-2fb1ca8dd7d8" />
+
+
 ---
 
 # 🧪 Testing
