@@ -3,42 +3,50 @@ services:
   redis:
     image: redis:7
     container_name: payflow-redis
-    ports:
-      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   eureka-server:
+    build:
+      context: ./discovery-server
     image: payflow-eureka
     container_name: payflow-eureka
+    restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 10
-    restart: unless-stopped
     ports:
       - "8761:8761"
 
   config-server:
+    build:
+      context: ./config-server
     image: payflow-config
     container_name: payflow-config
+    restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 10
-    restart: unless-stopped
     ports:
       - "8888:8888"
 
   mysql:
     image: mysql:8.0
     container_name: payflow-mysql
+    restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-pmysql" ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pmysql"]
       interval: 10s
       timeout: 5s
       retries: 10
-    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: mysql
       MYSQL_DATABASE: payflow_auth
@@ -48,6 +56,8 @@ services:
       - mysql-data:/var/lib/mysql
 
   auth-service:
+    build:
+      context: ./auth-service
     image: payflow-auth
     container_name: payflow-auth
     restart: unless-stopped
@@ -64,6 +74,8 @@ services:
       SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
 
   user-service:
+    build:
+      context: ./user-service
     image: payflow-user
     container_name: payflow-user
     restart: unless-stopped
@@ -80,6 +92,8 @@ services:
       SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
 
   wallet-service:
+    build:
+      context: ./wallet-service
     image: payflow-wallet
     container_name: payflow-wallet
     restart: unless-stopped
@@ -94,11 +108,15 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
       SPRING_KAFKA_BOOTSTRAP_SERVERS: payflow-kafka:9092
 
   gateway-service:
+    build:
+      context: ./gateway-service
     image: payflow-gateway
     container_name: payflow-gateway
     restart: unless-stopped
@@ -120,7 +138,6 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
     ports:
       - "12182:2181"
-
     healthcheck:
       test: ["CMD", "bash", "-c", "echo rst | nc localhost 2181"]
       interval: 10s
@@ -144,12 +161,14 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     healthcheck:
-      test: [ "CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1" ]
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1"]
       interval: 15s
       timeout: 10s
       retries: 10
 
   notification-service:
+    build:
+      context: ./notification-service
     image: payflow-notification
     container_name: payflow-notification
     restart: unless-stopped
@@ -157,6 +176,8 @@ services:
       config-server:
         condition: service_healthy
       eureka-server:
+        condition: service_healthy
+      mysql:
         condition: service_healthy
       kafka:
         condition: service_healthy
@@ -167,9 +188,11 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: payflow-kafka:9092
 
   saga-service:
+    build:
+      context: ./saga-service
     image: payflow-saga
     container_name: payflow-saga
-
+    restart: unless-stopped
     depends_on:
       config-server:
         condition: service_healthy
@@ -177,10 +200,8 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-
     ports:
       - "8086:8086"
-
     environment:
       SPRING_CONFIG_IMPORT: optional:configserver:http://payflow-config:8888
 
