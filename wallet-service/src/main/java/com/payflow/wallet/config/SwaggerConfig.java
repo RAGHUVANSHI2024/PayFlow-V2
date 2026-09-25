@@ -27,28 +27,21 @@ public class SwaggerConfig {
                                 .name("Raghuvanshi Kushwah")
                                 .email("kushwahraghuvanshi32@gmail.com"))
                         .license(new License()
-                                .name("Apache 2.0")));
-    }
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-
-        final String securitySchemeName = "bearerAuth";
-
-        return new OpenAPI()
-
+                                .name("Apache 2.0")))
                 .addSecurityItem(
                         new SecurityRequirement()
                                 .addList(securitySchemeName)
                 )
-                .components(new Components()
-                        .addSecuritySchemes(
-                                securitySchemeName,
-                                new SecurityScheme()
-                                        .name(securitySchemeName)
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")
-                        ));
+                .components(
+                        new Components()
+                                .addSecuritySchemes(
+                                        securitySchemeName,
+                                        new SecurityScheme()
+                                                .name(securitySchemeName)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                )
+                );
     }
 }
