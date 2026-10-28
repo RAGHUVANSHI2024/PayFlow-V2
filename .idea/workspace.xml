@@ -2,20 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9f3ba2b-4c6d-4020-b93f-bea3f2b82805" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/user-service/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application-docker.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application-local.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/saga-service/src/main/resources/application-docker.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/saga-service/src/main/resources/application-local.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/com/payflow/auth/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/payflow/auth/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config-server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/config-server/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/discovery-server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-server/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config-server/src/main/resources/application-docker.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config-server/src/main/resources/application-docker.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config-server/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config-server/src/main/resources/application-local.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config-server/src/main/resources/application.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saga-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/saga-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wallet-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/java/com/payflow/wallet/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/java/com/payflow/wallet/config/RedisConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/java/com/payflow/wallet/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/java/com/payflow/wallet/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saga-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/saga-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application-docker.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application-docker.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application-local.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/resources/application-docker.yml" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/resources/application-docker.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/resources/application-local.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +99,14 @@
       <workItem from="1789323633789" duration="943000" />
       <workItem from="1789362328764" duration="5327000" />
       <workItem from="1789809138198" duration="2241000" />
+      <workItem from="1790323762451" duration="1328000" />
+      <workItem from="1790404510732" duration="704000" />
+      <workItem from="1790406269222" duration="455000" />
+      <workItem from="1790571901911" duration="441000" />
+      <workItem from="1790647715015" duration="8872000" />
+      <workItem from="1791083757779" duration="4780000" />
+      <workItem from="1791689044285" duration="5540000" />
+      <workItem from="1792649953606" duration="12117000" />
     </task>
     <servers />
   </component>
