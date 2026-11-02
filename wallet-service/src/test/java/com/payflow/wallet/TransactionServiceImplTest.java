@@ -1,12 +1,16 @@
 package com.payflow.wallet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payflow.wallet.Exception.InsufficientBalanceException;
 import com.payflow.wallet.dto.TransferMoneyRequest;
 import com.payflow.wallet.entity.Transaction;
 import com.payflow.wallet.entity.Wallet;
+import com.payflow.wallet.repository.OutboxRepository;
 import com.payflow.wallet.repository.TransactionRepository;
 import com.payflow.wallet.repository.WalletRepository;
 import com.payflow.wallet.service.TransactionServiceImpl;
+import com.payflow.wallet.service.WalletCacheService;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,11 +34,20 @@ public class TransactionServiceImplTest {
     @Mock
     private TransactionRepository transactionRepository;
 
+    @Mock
+    private WalletCacheService walletCacheService;
+
+    @Mock
+    private ObjectMapper objectMapper;
+
+    @Mock
+    private OutboxRepository outboxRepository;
+
     @InjectMocks
     private TransactionServiceImpl transactionService;
 
     @Test
-    void shouldTransferMoneySuccessfully(){
+    void shouldTransferMoneySuccessfully() {
 
         Wallet sender = Wallet.builder()
                 .id(1L)
@@ -46,15 +59,10 @@ public class TransactionServiceImplTest {
                 .balance(new BigDecimal("500"))
                 .build();
 
-
-        TransferMoneyRequest request =
-                new TransferMoneyRequest();
-
+        TransferMoneyRequest request = new TransferMoneyRequest();
         request.setSenderWalletId(1L);
         request.setReceiverWalletId(2L);
-        request.setAmount(
-                new BigDecimal("200")
-        );
+        request.setAmount(new BigDecimal("200"));
 
         when(walletRepository.findById(1L))
                 .thenReturn(Optional.of(sender));
@@ -64,17 +72,14 @@ public class TransactionServiceImplTest {
 
         transactionService.transfer(request);
 
-        assertEquals(
-                new BigDecimal("800"),
-                sender.getBalance()
-        );
-
-        assertEquals(
-                new BigDecimal("700"),
-                receiver.getBalance()
-        );
+        assertEquals(new BigDecimal("800"), sender.getBalance());
+        assertEquals(new BigDecimal("700"), receiver.getBalance());
 
         verify(transactionRepository).save(any(Transaction.class));
+
+        verify(walletCacheService).evictBalance(1L);
+        verify(walletCacheService).evictBalance(2L);
+        verify(outboxRepository).save(any());
     }
 
     @Test
@@ -90,14 +95,10 @@ public class TransactionServiceImplTest {
                 .balance(new BigDecimal("500"))
                 .build();
 
-        TransferMoneyRequest request =
-                new TransferMoneyRequest();
-
+        TransferMoneyRequest request = new TransferMoneyRequest();
         request.setSenderWalletId(1L);
         request.setReceiverWalletId(2L);
-        request.setAmount(
-                new BigDecimal("200")
-        );
+        request.setAmount(new BigDecimal("200"));
 
         when(walletRepository.findById(1L))
                 .thenReturn(Optional.of(sender));
@@ -110,7 +111,7 @@ public class TransactionServiceImplTest {
                 () -> transactionService.transfer(request)
         );
 
-        verify(transactionRepository,
-                never()).save(any());
+        verify(transactionRepository, never()).save(any());
+        verify(walletCacheService, never()).evictBalance(any());
     }
 }

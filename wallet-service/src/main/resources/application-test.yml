@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+      import-check:
+        enabled: false
+
+  kafka:
+    listener:
+      auto-startup: false
+    admin:
+      auto-create: false
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/payflow_wallet
+    username: root
+    password: mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+eureka:
+  client:
+    enabled: false

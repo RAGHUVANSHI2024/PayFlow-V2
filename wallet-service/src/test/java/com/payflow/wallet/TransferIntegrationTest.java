@@ -1,5 +1,5 @@
-package com.payflow.wallet;
 
+package com.payflow.wallet;
 
 import com.payflow.wallet.Exception.InsufficientBalanceException;
 import com.payflow.wallet.dto.TransferMoneyRequest;
@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 public class TransferIntegrationTest {
 
@@ -30,9 +32,10 @@ public class TransferIntegrationTest {
     @Autowired
     private WalletRepository walletRepository;
 
-
     @Test
     void shouldTransferMoney() {
+
+        long transactionsBefore = transactionRepository.count();
 
         Wallet sender = Wallet.builder()
                 .balance(new BigDecimal("1000"))
@@ -45,8 +48,7 @@ public class TransferIntegrationTest {
         sender = walletRepository.save(sender);
         receiver = walletRepository.save(receiver);
 
-        TransferMoneyRequest request =
-                new TransferMoneyRequest();
+        TransferMoneyRequest request = new TransferMoneyRequest();
 
         request.setSenderWalletId(sender.getId());
         request.setReceiverWalletId(receiver.getId());
@@ -54,13 +56,11 @@ public class TransferIntegrationTest {
 
         transactionService.transfer(request);
 
-        Wallet updatedSender =
-                walletRepository.findById(sender.getId())
-                        .orElseThrow();
+        Wallet updatedSender = walletRepository.findById(sender.getId())
+                .orElseThrow();
 
-        Wallet updatedReceiver =
-                walletRepository.findById(receiver.getId())
-                        .orElseThrow();
+        Wallet updatedReceiver = walletRepository.findById(receiver.getId())
+                .orElseThrow();
 
         assertEquals(
                 new BigDecimal("800"),
@@ -73,13 +73,15 @@ public class TransferIntegrationTest {
         );
 
         assertEquals(
-                1,
+                transactionsBefore + 1,
                 transactionRepository.count()
         );
     }
 
     @Test
-    void shouldThrowInsufficientBalanceException(){
+    void shouldThrowInsufficientBalanceException() {
+
+        long transactionsBefore = transactionRepository.count();
 
         Wallet sender = Wallet.builder()
                 .balance(new BigDecimal("100"))
@@ -92,45 +94,38 @@ public class TransferIntegrationTest {
         sender = walletRepository.save(sender);
         receiver = walletRepository.save(receiver);
 
-
-        TransferMoneyRequest request =
-                new TransferMoneyRequest();
+        TransferMoneyRequest request = new TransferMoneyRequest();
 
         request.setSenderWalletId(sender.getId());
         request.setReceiverWalletId(receiver.getId());
         request.setAmount(new BigDecimal("200"));
 
-        assertThrows(InsufficientBalanceException.class, ()-> transactionService.transfer(request));
+        // Verify exception
+        assertThrows(
+                InsufficientBalanceException.class,
+                () -> transactionService.transfer(request)
+        );
 
-        Wallet updateSender  = walletRepository.findById(sender.getId()).orElseThrow();
-        Wallet updateReceiver = walletRepository.findById(receiver.getId()).orElseThrow();
+        Wallet updatedSender = walletRepository.findById(sender.getId())
+                .orElseThrow();
 
-        assertEquals(new BigDecimal("100"),updateSender.getBalance());
-        assertEquals(new BigDecimal("500"),updateReceiver.getBalance());
+        Wallet updatedReceiver = walletRepository.findById(receiver.getId())
+                .orElseThrow();
 
-        assertEquals(0,transactionRepository.count());
-    }
+        // Verify balances remain unchanged
+        assertEquals(
+                new BigDecimal("100"),
+                updatedSender.getBalance()
+        );
 
-    @Test
-    void shouldRollbackWhenBalanceIsInsufficient(){
-        Wallet sender = Wallet.builder()
-                .balance(new BigDecimal("100"))
-                .build();
+        assertEquals(
+                new BigDecimal("500"),
+                updatedReceiver.getBalance()
+        );
 
-        Wallet receiver = Wallet.builder()
-                .balance(new BigDecimal("500"))
-                .build();
-
-        sender = walletRepository.save(sender);
-        receiver = walletRepository.save(receiver);
-
-        TransferMoneyRequest request =
-                new TransferMoneyRequest();
-
-        request.setSenderWalletId(sender.getId());
-        request.setReceiverWalletId(receiver.getId());
-        request.setAmount(new BigDecimal("200"));
-
-        assertThrows(InsufficientBalanceException.class,() -> transactionService.transfer(request));
+        assertEquals(
+                transactionsBefore,
+                transactionRepository.count()
+        );
     }
 }
