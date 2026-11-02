@@ -17,6 +17,30 @@ jobs:
     name: Build ${{ matrix.service }}
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: mysql
+          MYSQL_DATABASE: payflow_auth
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -p$MYSQL_ROOT_PASSWORD"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     strategy:
       fail-fast: false
       matrix:
@@ -40,6 +64,15 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
+
+      - name: Create Test Databases
+        run: |
+          docker exec ${{ job.services.mysql.id }} mysql -uroot -pmysql -e "
+            CREATE DATABASE IF NOT EXISTS payflow_auth;
+            CREATE DATABASE IF NOT EXISTS payflow_user;
+            CREATE DATABASE IF NOT EXISTS payflow_wallet;
+            CREATE DATABASE IF NOT EXISTS payflow_notification;
+          "
 
       - name: Build and Verify Project
         working-directory: ${{ matrix.service }}
