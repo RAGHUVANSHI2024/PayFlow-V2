@@ -2,24 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9f3ba2b-4c6d-4020-b93f-bea3f2b82805" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application-docker.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application-local.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/saga-service/src/main/resources/application-docker.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/saga-service/src/main/resources/application-local.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/saga-service/src/main/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wallet-service/src/main/resources/application-test.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config-server/src/main/resources/application-docker.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config-server/src/main/resources/application-docker.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config-server/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config-server/src/main/resources/application-local.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config-server/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saga-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/saga-service/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application-docker.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application-docker.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application-local.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/resources/application-docker.yml" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/resources/application-docker.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/resources/application-local.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wallet-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/com/payflow/auth/AuthServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/com/payflow/auth/AuthServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-service/src/test/java/com/payflow/gateway/GatewayServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/src/test/java/com/payflow/gateway/GatewayServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification-service/src/test/java/com/payflow/notification/NotificationServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/test/java/com/payflow/notification/NotificationServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saga-service/src/test/java/com/payflow/saga/SagaServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/saga-service/src/test/java/com/payflow/saga/SagaServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/test/java/com/payflow/user/UserServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/test/java/com/payflow/user/UserServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/TransactionControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/TransactionControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/TransactionServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/TransactionServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/TransferIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/TransferIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletCacheServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletCacheServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletRepositoryIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletRepositoryIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/wallet-service/src/test/java/com/payflow/wallet/WalletServiceApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +107,8 @@
       <workItem from="1790647715015" duration="8872000" />
       <workItem from="1791083757779" duration="4780000" />
       <workItem from="1791689044285" duration="5540000" />
-      <workItem from="1792649953606" duration="12117000" />
+      <workItem from="1792649953606" duration="15585000" />
+      <workItem from="1793340131352" duration="4182000" />
     </task>
     <servers />
   </component>
